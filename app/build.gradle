@@ -1,0 +1,34 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        applicationId "com.example.mapsforgesample"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:25.2.0'
+
+    compile 'org.mapsforge:mapsforge-core:0.8.0'
+    compile 'org.mapsforge:mapsforge-map:0.8.0'
+    compile 'org.mapsforge:mapsforge-map-reader:0.8.0'
+    compile 'org.mapsforge:mapsforge-themes:0.8.0'
+    compile 'net.sf.kxml:kxml2:2.3.0'
+
+    compile 'org.mapsforge:mapsforge-map-android:0.8.0'
+    compile 'com.caverock:androidsvg:1.2.2-beta-1'
+}
