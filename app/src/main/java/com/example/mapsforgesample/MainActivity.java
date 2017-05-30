@@ -115,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean setMarker(LatLong latlong) {
 
-        Marker marker = createMarker(latlong, R.drawable.marker_red);
+//        Marker marker = createMarker(latlong, R.drawable.marker_red);
+        Marker marker = createBubbleMarker(latlong, R.drawable.marker_red, "ポップアップテスト");
         mapView.getLayerManager().getLayers().add(marker);
 
         return true;
@@ -125,6 +126,12 @@ public class MainActivity extends AppCompatActivity {
         Drawable drawable = getResources().getDrawable(resource);
         Bitmap bitmap = AndroidGraphicFactory.convertToBitmap(drawable);
         return new Marker(latlong, bitmap, 0, -bitmap.getHeight() / 2);
+    }
+
+    private Marker createBubbleMarker(LatLong latlong, int resource, String text) {
+        Drawable drawable = getResources().getDrawable(resource);
+        Bitmap bitmap = AndroidGraphicFactory.convertToBitmap(drawable);
+        return new MarkerWithBubble(latlong, bitmap, 0, -bitmap.getHeight() / 2, this.mapView, text);
     }
 
 }
