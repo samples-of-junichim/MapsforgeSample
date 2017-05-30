@@ -24,11 +24,11 @@ public class MarkerWithBubble extends Marker {
 
     private static final String TAG = MarkerWithBubble.class.getSimpleName();
 
+    private static final int BALLOON_VERTICAL_OFFSET = 100;
     private static final int DEFAULT_TEXT_SIZE = 15;
 
     private MapView mMapView;
 
-    private Bitmap mBalloon;
     private Marker mBalloonMarker;
 
     private String mText;
@@ -47,7 +47,7 @@ public class MarkerWithBubble extends Marker {
         mText = text;
         mColor = Color.BLACK;
         mTextSize = DEFAULT_TEXT_SIZE;
-        mBalloon = null;
+        mBalloonMarker = null;
     }
 
     public void setText(String text) {
@@ -87,37 +87,33 @@ public class MarkerWithBubble extends Marker {
                 if (null == mBalloonMarker) {
                     Log.d(TAG, "balloon is null");
 
-                    if (mBalloon == null) {
-                        createBalloon(mMapView.getContext());
-                    }
-
-                    mBalloonMarker = new Marker(MarkerWithBubble.this.getLatLong(), mBalloon, 0, -mBalloon.getHeight());
+                    Bitmap bmp = createBalloon(mMapView.getContext());
+                    mBalloonMarker = new Marker(MarkerWithBubble.this.getLatLong(), bmp, 0, - bmp.getHeight() / 2 - BALLOON_VERTICAL_OFFSET );
                     mMapView.getLayerManager().getLayers().add(mBalloonMarker);
                 } else {
 
-                    mMapView.getLayerManager().getLayers().remove(mBalloonMarker, true);
-                    mBalloonMarker = null;
+                    if (null != mBalloonMarker) {
+                        mBalloonMarker.setVisible(!mBalloonMarker.isVisible());
+                    }
                 }
-//                return true;
             }
             Log.d(TAG, "text is null");
         } else {
             Log.d(TAG, "contains: " + false);
 
             if (null != mBalloonMarker) {
-                mMapView.getLayerManager().getLayers().remove(mBalloonMarker, true);
-                mBalloonMarker = null;
+                mBalloonMarker.setVisible(false);
             }
         }
         return super.onTap(geoPoint, viewPosition, tapPoint);
     }
 
-    private void createBalloon(Context c) {
+    private Bitmap createBalloon(Context c) {
         TextView tv = (TextView) LayoutInflater.from(mMapView.getContext()).inflate(R.layout.popup_marker, null);
         tv.setTextColor(mColor);
         tv.setTextSize(mTextSize);
         tv.setText(mText);
 
-        mBalloon = Utils.viewToBitmap(c, tv);
+        return Utils.viewToBitmap(c, tv);
     }
 }
