@@ -1,5 +1,6 @@
 package com.example.mapsforgesample;
 
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,8 @@ import org.mapsforge.map.layer.overlay.Marker;
 
 public class MarkerWithBubble extends Marker {
 
+    private static final int DEFAULT_TEXT_SIZE = 15;
+
     private MapView mMapView;
     private TextView mBalloon;
     private String mText;
@@ -35,6 +38,8 @@ public class MarkerWithBubble extends Marker {
         super(latLong, bitmap, horizontalOffset, verticalOffset);
         mMapView = mapview;
         mText = text;
+        mColor = Color.BLACK;
+        mTextSize = DEFAULT_TEXT_SIZE;
         mBalloon = null;
     }
 
